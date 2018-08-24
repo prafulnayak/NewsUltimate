@@ -4,7 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
+import android.app.LoaderManager;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Loader;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
         headerList = new ArrayList<String>();
         addItemsToHeaderList();
 
-        headerAdapter = new HeaderRecyclerAdapter(headerList,this,bodyRV);
+        headerAdapter = new HeaderRecyclerAdapter(headerList,MainActivity.this, getLoaderManager(),bodyRV);
         headerLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         headerRV.setLayoutManager(headerLayoutManager);
         headerRV.setHasFixedSize(true);
         headerRV.setAdapter(headerAdapter);
+//        headerRV.scrollToPosition(8);
     }
 
     private void addItemsToHeaderList() {

@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 
 class BodyRecyclerAdapter extends RecyclerView.Adapter<BodyRecyclerAdapter.viewHolder> {
-    private ArrayList<String> bodyList = new ArrayList<String>();
-    public BodyRecyclerAdapter(ArrayList<String> headerList) {
+    private ArrayList<News> bodyList = new ArrayList<News>();
+    public BodyRecyclerAdapter(ArrayList<News> headerList) {
         this.bodyList = headerList;
     }
 
@@ -26,7 +27,21 @@ class BodyRecyclerAdapter extends RecyclerView.Adapter<BodyRecyclerAdapter.viewH
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        holder.sectionT.setText(bodyList.get(position));
+//        holder.sectionT.setText(bodyList.get(position));
+        final News news = bodyList.get(position);
+        holder.sectionT.setText(news.getSectionName()+"  >>");
+        holder.headingT.setText(news.getWebTitle());
+        holder.dateT.setText(convertStringToDate(news.getWebPublicationDate()));
+//        holder.dateT.setText("hello");
+        holder.sourceT.setText(news.getTagContributor());
+        if(news.getFieldThumbnail() != null)
+            holder.imageViewN.setImageBitmap(news.getFieldThumbnail());
+        else
+            holder.imageViewN.setBackgroundResource(R.drawable.ic_launcher_background);
+    }
+
+    private String convertStringToDate(String dateString) {
+        return dateString.substring(0,10);
     }
 
     @Override
