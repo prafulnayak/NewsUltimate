@@ -25,4 +25,10 @@
     <string name="tags">tags</string>
     <string name="isHosted">isHosted</string>
     <string name="nullData">Soryy, Try After some time !!!</string>
+    <string name="technology">technology</string>
+    <string name="All">All</string>
+    <string name="business">business</string>
+    <string name="entertainment">entertainment</string>
+    <string name="education">education</string>
+    <string name="culture">culture</string>
 </resources>

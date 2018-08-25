@@ -14,6 +14,7 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
     private static final String LOG_NEWS_LOADER = NewsLoader.class.getName();
     private String url;
     public Context context;
+    DialogAction dialogAction;
     public NewsLoader(Context context, String guardianRequestUrl) {
         super(context);
         url = guardianRequestUrl;
@@ -21,7 +22,15 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
     }
 
     @Override
+    protected void onStartLoading() {
+        Log.i(LOG_NEWS_LOADER,"onStartLoading");
+        super.onStartLoading();
+
+    }
+
+    @Override
     public List<News> loadInBackground() {
+//
         Log.i(LOG_NEWS_LOADER,"loadInBackground");
         Log.i(LOG_NEWS_LOADER,""+url);
         List<News> newsList = new ArrayList<News>();
