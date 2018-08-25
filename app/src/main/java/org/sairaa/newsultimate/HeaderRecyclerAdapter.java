@@ -207,7 +207,7 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
         Log.i(LOG_HEADER_RV,"onResetLoader");
-        
+
     }
 
 
