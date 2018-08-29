@@ -194,7 +194,8 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
 //        news = null;
         if(news != null && !news.isEmpty()){
             newsList.addAll(news);
-        }
+        }else
+            emptyTextView.setText("No News Information");
         RecyclerView.Adapter bodyAdapter = new BodyRecyclerAdapter(newsList);
         RecyclerView.LayoutManager bodyLayoutManager = new LinearLayoutManager(context);
         bodyAdapter.notifyDataSetChanged();
@@ -202,14 +203,16 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
         bodyRV.setHasFixedSize(true);
         bodyRV.setAdapter(bodyAdapter);
         dialogAction.hideDialog();
+
     }
+
+
 
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
         Log.i(LOG_HEADER_RV,"onResetLoader");
 
     }
-
 
 //    @NonNull
 //    @Override
@@ -245,10 +248,24 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
 
 
     public static class viewHolder extends RecyclerView.ViewHolder{
+
         private TextView headerItem;
+        // We'll use this field to showcase matching the holder from the test.
+        private boolean mIsInTheMiddle = false;
         public viewHolder(View itemView) {
             super(itemView);
             headerItem = itemView.findViewById(R.id.header_item_name);
+        }
+        TextView getTextView() {
+            return headerItem;
+        }
+
+        boolean getIsInTheMiddle() {
+            return mIsInTheMiddle;
+        }
+
+        void setIsInTheMiddle(boolean isInTheMiddle) {
+            mIsInTheMiddle = isInTheMiddle;
         }
     }
 }
