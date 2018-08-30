@@ -25,14 +25,14 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     @Override
     protected void onStartLoading() {
-        Log.i(LOG_NEWS_LOADER,"onStartLoading");
+//        Log.i(LOG_NEWS_LOADER,"onStartLoading");
         super.onStartLoading();
 
     }
 
     @Override
     public List<News> loadInBackground() {
-//
+
         List<News> newsList = new ArrayList<News>();
         newsListT = newsList;
         newsList = new QueryUtil().QueryUtilsForNewtwork(url,context);
@@ -40,28 +40,4 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
         return newsList;
     }
 
-
-
-//    private static final String LOG_NEWS_LOADER = NewsLoader.class.getName();
-//    private String url;
-//    public Context context;
-//
-//    public NewsLoader(Context context, String guardianRequestUrl) {
-//        super(context);
-//        url = guardianRequestUrl;
-//        this.context = context;
-//    }
-//
-//    @Nullable
-//    @Override
-//    public List<News> loadInBackground() {
-//
-//        Log.i(LOG_NEWS_LOADER,"loadInBackground");
-//        Log.i(LOG_NEWS_LOADER,""+url);
-//        List<News> newsList = new ArrayList<News>();
-//
-//        newsList = new QueryUtil().QueryUtilsForNewtwork(url,context);
-//
-//        return newsList;
-//    }
 }

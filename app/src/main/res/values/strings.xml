@@ -6,6 +6,7 @@
     <string name="app_360">org.sairaa.a360degree.app_360</string>
     <string name="sports_status_preference">org.sairaa.a360degree.sports</string>
     <string name="politics_status_preference">org.sairaa.a360degree.politics</string>
+    <string name="first_time_status_preference">org.sairaa.a360degree.first_time</string>
     <string name="noOfTabs_preference">org.sairaa.a360degree.no_of_tabs</string>
     <string name="fatch">Fatching News</string>
     <string name="check_connection">Check Your Internet connection</string>
@@ -25,10 +26,17 @@
     <string name="tags">tags</string>
     <string name="isHosted">isHosted</string>
     <string name="nullData">Soryy, Try After some time !!!</string>
-    <string name="technology">technology</string>
+    <string name="technology">Technology</string>
     <string name="All">All</string>
-    <string name="business">business</string>
-    <string name="entertainment">entertainment</string>
-    <string name="education">education</string>
-    <string name="culture">culture</string>
+    <string name="business">Business</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="education">Education</string>
+    <string name="culture">Culture</string>
+    <string name="settings_menu_item">Settings</string>
+    <string name="settings_title">News Settings</string>
+    <string name="settings_min_number_of_news">Minimum News item</string>
+    <string name="settings_min_news_key" translatable="false">min_magnitude</string>
+    <string name="settings_min_news_default" translatable="false">15</string>
+    <string name="settings_news_label">Minimum News Article</string>
+    <string name="no_news">Soryy, Try After some time !!!</string>
 </resources>

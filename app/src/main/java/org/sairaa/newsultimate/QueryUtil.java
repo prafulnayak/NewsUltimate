@@ -52,22 +52,14 @@ class QueryUtil {
             JSONObject baseJsonResponse = new JSONObject(newsJson);
 
             // Extract the JSONArray associated with the key called "features",
-            // which represents a list of features (or earthquakes).
+            // which represents a list of features (or news).
             JSONObject newsObject = baseJsonResponse.getJSONObject(ctx.getString(R.string.response));
             JSONArray newsArray = newsObject.getJSONArray(ctx.getString(R.string.results));
 
-            // For each earthquake in the earthquakeArray, create an {@link Earthquake} object
             for (int i = 0; i < newsArray.length(); i++) {
 
-                // Get a single earthquake at position i within the list of earthquakes
                 JSONObject currentNews = newsArray.getJSONObject(i);
 
-                // For a given earthquake, extract the JSONObject associated with the
-                // key called "properties", which represents a list of all properties
-                // for that earthquake.
-//                JSONObject results = currentNews.getJSONObject("");
-
-                // Extract the value for the key called "mag"
                 String id = currentNews.getString(ctx.getString(R.string.id));
                 String type = currentNews.getString(ctx.getString(R.string.type));
                 String sectionId = currentNews.getString(ctx.getString(R.string.sectionId));
@@ -101,17 +93,9 @@ class QueryUtil {
                     publisher = tagObject.getString(ctx.getString(R.string.webTitle));
                 }
                 String isHosted = currentNews.getString(ctx.getString(R.string.isHosted));
-//                String pillarId = currentNews.getString("pillarId");
-//                String pillarName = currentNews.getString("pillarName");
+
                 newsData.add(new News(id,type,sectionId,sectionName,webPublicationDate,webTitle,webUrl,apiUrl,thumbnail,
                         publisher,isHosted));
-                // Extract the value for the key called "place"
-//                String location = properties.getString("place");
-//
-//
-
-                Log.i(LOG_TAG_QUERY_UTIL,"jsonconvert");
-                Log.i(LOG_TAG_QUERY_UTIL,id+"\n"+type+"\n"+thumbnail);
 
             }
 

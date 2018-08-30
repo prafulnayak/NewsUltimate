@@ -12,13 +12,13 @@ public class DialogAction {
 
     }
     public void showDialog(String title, String msg){
-        Log.i("show", "called");
+//        Log.i("show", "called");
         progressDialog = ProgressDialog.show(mContext, title, msg, true, false);
     }
     public  void hideDialog(){
-        Log.i("hide", "called");
+//        Log.i("hide", "called");
         if(progressDialog != null) {
-            Log.i("hide", "called2");
+//            Log.i("hide", "called2");
             progressDialog.dismiss();
             progressDialog = null;
         }

@@ -2,6 +2,8 @@ package org.sairaa.newsultimate;
 
 import android.app.LoaderManager;
 import android.content.Loader;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import android.content.Context;
@@ -36,14 +38,16 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
     private static final String GUARDIAN_REQUEST_URL =
             "https://content.guardianapis.com/search?api-key=08c7211d-6fb6-4f1e-a865-190be5274e9f&order-by=newest";
     private static final String LOG_HEADER_RV = HeaderRecyclerAdapter.class.getName();
-    private static int firstTimeNews = 0;
+    //When First Time opened show "All" catogory News
+    private static boolean firstTimeNews = true;
+    //Check Connection
     private CheckConnection checkConnection;
+    //Recycler view for body containing news
     private RecyclerView bodyRV;
     //Context for mainActivity
     private Context context;
     private android.app.LoaderManager loaderManager;
-    private ArrayList<String> headerList = new ArrayList<String>();
-    private ArrayList<String> bodyList = new ArrayList<String>();
+    private ArrayList<String> headerList;
     private ArrayList<News> newsList = new ArrayList<News>();
     private TextView emptyTextView;
     private DialogAction dialogAction;
@@ -69,39 +73,25 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
         final int position = positionOfView;
         holder.headerItem.setText(headerList.get(positionOfView));
 //        dialogAction = new DialogAction(context);
-        if(firstTimeNews == 0){
-            if(checkConnection.isConnected()){
 
-//                dialogAction.showDialog(context.getString(R.string.app_name),context.getString(R.string.fatch));
+        if(firstTimeNews){
+            //This execute for the first time when the app is launched
+            //to show 'All' section of news
+            if(checkConnection.isConnected()){
+                //Intialize the loader for "All" section
                 loaderManager.initLoader(NEWS_LOADER_TOP100,null,HeaderRecyclerAdapter.this).forceLoad();
-                firstTimeNews = 1;
+                firstTimeNews = false;
             }
 
         }
 
-
+        //When other section clicked
+        //it initiate Loader accordingly
         holder.headerItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bodyList.clear();
-                bodyList.add(headerList.get(position));
-                bodyList.add(headerList.get(position));
-                bodyList.add(headerList.get(position));
-                bodyList.add(headerList.get(position));
-//                newsList.add(new News(headerList.get(position),
-//                        headerList.get(position),
-//                        headerList.get(position),
-//                        headerList.get(position),
-//                        headerList.get(position),
-//                        headerList.get(position),
-//                        headerList.get(position),
-//                        headerList.get(position),
-//                        null,headerList.get(position),
-//                        headerList.get(position)));
-//                dialogAction = new DialogAction(context);
-//                dialogAction.showDialog(context.getString(R.string.app_name),context.getString(R.string.fatch));
+
                 if(checkConnection.isConnected()){
-//                    dialogAction.showDialog(context.getString(R.string.app_name),context.getString(R.string.fatch));
                     if(headerList.get(position).equals(context.getString(R.string.All))){
                         loaderManager.initLoader(NEWS_LOADER_TOP100,null,HeaderRecyclerAdapter.this).forceLoad();
                     }
@@ -122,17 +112,6 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
                         loaderManager.initLoader(NEWS_LOADER_CULTURE,null,HeaderRecyclerAdapter.this).forceLoad();
 
                 }
-
-
-
-
-//                bodyAdapter = new BodyRecyclerAdapter(newsList);
-//                bodyLayoutManager = new LinearLayoutManager(context);
-//                bodyRV.setLayoutManager(bodyLayoutManager);
-//                bodyRV.setHasFixedSize(true);
-//                bodyRV.setAdapter(bodyAdapter);
-                Log.i(LOG_HEADER_RV,"Clicked on : "+headerList.get(position));
-
             }
         });
 
@@ -145,17 +124,26 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
 
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle bundle) {
+        //Shared preference to store/retrieve setting attribute to display no of news
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        //Retrieving no of news from preference
+        String minNoOfNews = sharedPrefs.getString(
+                context.getString(R.string.settings_min_news_key),
+                context.getString(R.string.settings_min_news_default));
+        //Show dialog of processing
+        //while retrieving news information from internet
         dialogAction = new DialogAction(context);
         dialogAction.showDialog(context.getString(R.string.app_name),context.getString(R.string.fatch));
-        Log.i(LOG_HEADER_RV,"on CreateLoader");
+//        Log.i(LOG_HEADER_RV,"on CreateLoader");
         Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
 
         // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
         Uri.Builder uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("show-fields", "thumbnail");
         uriBuilder.appendQueryParameter("show-tags", "contributor");
-        uriBuilder.appendQueryParameter("page-size", "15");
-
+        uriBuilder.appendQueryParameter("page-size", minNoOfNews);
+        //According to Loader initiation
+        //add query parameter to retrieve corresponding information
         switch (id){
             case NEWS_LOADER_TOP100:
                 return new NewsLoader(context,uriBuilder.toString());
@@ -188,14 +176,18 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
-        emptyTextView.setText("No News Information");
-        Log.i(LOG_HEADER_RV,"On LoadFinished");
+        emptyTextView.setText(R.string.no_news);
+//        Log.i(LOG_HEADER_RV,"On LoadFinished");
         newsList.clear();
 //        news = null;
+        //Check of the news data set is empty or null
+        //if null set the empty text view to display user
+        // no information available
         if(news != null && !news.isEmpty()){
             newsList.addAll(news);
+            emptyTextView.setVisibility(View.INVISIBLE);
         }else
-            emptyTextView.setText("No News Information");
+            emptyTextView.setText(R.string.no_news);
         RecyclerView.Adapter bodyAdapter = new BodyRecyclerAdapter(newsList);
         RecyclerView.LayoutManager bodyLayoutManager = new LinearLayoutManager(context);
         bodyAdapter.notifyDataSetChanged();
@@ -211,61 +203,18 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
         Log.i(LOG_HEADER_RV,"onResetLoader");
+        // when the loader reset is called set 'firstTimeNews to True
+        // so that when again the app launches the activity it starts with "All" category of news
+        firstTimeNews = true;
 
     }
-
-//    @NonNull
-//    @Override
-//    public Loader<List<News>> onCreateLoader(int id, @Nullable Bundle args) {
-//        Log.e("error","running");
-//        Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
-//
-//        // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
-//        Uri.Builder uriBuilder = baseUri.buildUpon();
-//        uriBuilder.appendQueryParameter("show-fields", "thumbnail");
-//        uriBuilder.appendQueryParameter("show-tags", "contributor");
-//        uriBuilder.appendQueryParameter("page-size", "15");
-//        return new NewsLoader(context,uriBuilder.toString());
-//
-//    }
-
-//    @Override
-//    public void onLoadFinished(@NonNull android.support.v4.content.Loader<List<News>> loader, List<News> data) {
-//        newsList.addAll(data);
-//        bodyAdapter = new BodyRecyclerAdapter(newsList);
-//        bodyLayoutManager = new LinearLayoutManager(context);
-//        bodyRV.setLayoutManager(bodyLayoutManager);
-//        bodyRV.setHasFixedSize(true);
-//        bodyRV.setAdapter(bodyAdapter);
-//
-//    }
-//
-//    @Override
-//    public void onLoaderReset(@NonNull android.support.v4.content.Loader<List<News>> loader) {
-//
-//    }
-
-
-
+    //View holder for Header recycler view
     public static class viewHolder extends RecyclerView.ViewHolder{
 
         private TextView headerItem;
-        // We'll use this field to showcase matching the holder from the test.
-        private boolean mIsInTheMiddle = false;
         public viewHolder(View itemView) {
             super(itemView);
             headerItem = itemView.findViewById(R.id.header_item_name);
-        }
-        TextView getTextView() {
-            return headerItem;
-        }
-
-        boolean getIsInTheMiddle() {
-            return mIsInTheMiddle;
-        }
-
-        void setIsInTheMiddle(boolean isInTheMiddle) {
-            mIsInTheMiddle = isInTheMiddle;
         }
     }
 }

@@ -1,5 +1,6 @@
 package org.sairaa.newsultimate;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -11,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.sairaa.newsultimate.IdlingResource.SimpleIdlingResource;
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements TextSetterOnRV.De
 //    private ArrayList<String> headerList;
     //empty text view
     private TextView emptyTextView;
-
+    private ArrayList<String> headerList = new ArrayList<String>();
     @Nullable
     private SimpleIdlingResource mIdlingResource;
 
@@ -57,15 +60,6 @@ public class MainActivity extends AppCompatActivity implements TextSetterOnRV.De
         // Get the IdlingResource instance
         getIdlingResource();
 
-//        headerList = new ArrayList<String>();
-//        addItemsToHeaderList();
-//
-//        headerAdapter = new HeaderRecyclerAdapter(headerList,MainActivity.this, getLoaderManager(),bodyRV,emptyTextView);
-//        headerLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-//        headerRV.setLayoutManager(headerLayoutManager);
-//        headerRV.setHasFixedSize(true);
-//        headerRV.setAdapter(headerAdapter);
-//        headerRV.scrollToPosition(8);
     }
 
     @Override
@@ -74,18 +68,6 @@ public class MainActivity extends AppCompatActivity implements TextSetterOnRV.De
         TextSetterOnRV.textSetter(this,MainActivity.this,mIdlingResource);
     }
 
-//    private void addItemsToHeaderList() {
-//        headerList.add(getString(R.string.All));
-//        headerList.add(getString(R.string.sports));
-//        headerList.add(getString(R.string.technology));
-//        headerList.add(getString(R.string.business));
-//        headerList.add(getString(R.string.entertainment));
-//        headerList.add(getString(R.string.education));
-//        headerList.add(getString(R.string.politics));
-//        headerList.add(getString(R.string.culture));
-//
-//    }
-
     @Override
     public void onDone(ArrayList<String> headerList) {
         headerAdapter = new HeaderRecyclerAdapter(headerList,MainActivity.this, getLoaderManager(),bodyRV,emptyTextView);
@@ -93,6 +75,23 @@ public class MainActivity extends AppCompatActivity implements TextSetterOnRV.De
         headerRV.setLayoutManager(headerLayoutManager);
         headerRV.setHasFixedSize(true);
         headerRV.setAdapter(headerAdapter);
-//        headerRV.scrollToPosition(8);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+
+            Intent settingsIntent = new Intent(this, SettingActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

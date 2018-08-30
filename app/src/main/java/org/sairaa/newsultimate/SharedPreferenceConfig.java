@@ -66,4 +66,16 @@ public class SharedPreferenceConfig {
         Log.i("SharedreadPolitics: ",""+status);
         return status;
     }
+    public void writeFirstTimeNews(boolean status){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(context.getResources().getString(R.string.first_time_status_preference), status);
+        Log.i("SharedWritePolitics ",""+status);
+        editor.commit();
+    }
+    public boolean readFirstTimeNews(){
+        boolean status = false;
+        status = sharedPreferences.getBoolean(context.getResources().getString(R.string.first_time_status_preference),false);
+        Log.i("SharedreadPolitics: ",""+status);
+        return status;
+    }
 }

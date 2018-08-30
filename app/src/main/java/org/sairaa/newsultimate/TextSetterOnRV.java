@@ -12,6 +12,7 @@ public class TextSetterOnRV {
     private static final int DELAY_MILLIS = 0;
     // Create an ArrayList of Header Content
     final static ArrayList<String> headerList = new ArrayList<String>();
+    private static boolean firstTime = true;
 
     interface DelayerCallback{
         void onDone(ArrayList<String> newsHeader);
@@ -32,15 +33,17 @@ public class TextSetterOnRV {
         }
 
         // Fill ArrayList with Tea objects
-        headerList.add(context.getString(R.string.All));
-        headerList.add(context.getString(R.string.sports));
-        headerList.add(context.getString(R.string.technology));
-        headerList.add(context.getString(R.string.business));
-        headerList.add(context.getString(R.string.entertainment));
-        headerList.add(context.getString(R.string.education));
-        headerList.add(context.getString(R.string.politics));
-        headerList.add(context.getString(R.string.culture));
-
+        if(firstTime){
+            headerList.add(context.getString(R.string.All));
+            headerList.add(context.getString(R.string.sports));
+            headerList.add(context.getString(R.string.technology));
+            headerList.add(context.getString(R.string.business));
+            headerList.add(context.getString(R.string.entertainment));
+            headerList.add(context.getString(R.string.education));
+            headerList.add(context.getString(R.string.politics));
+            headerList.add(context.getString(R.string.culture));
+            firstTime = false;
+        }
         /**
          * {@link postDelayed} allows the {@link Runnable} to be run after the specified amount of
          * time set in DELAY_MILLIS elapses. An object that implements the Runnable interface
