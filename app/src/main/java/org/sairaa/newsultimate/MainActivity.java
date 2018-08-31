@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements TextSetterOnRV.De
         headerRV.setLayoutManager(headerLayoutManager);
         headerRV.setHasFixedSize(true);
         headerRV.setAdapter(headerAdapter);
+
+
     }
 
     @Override

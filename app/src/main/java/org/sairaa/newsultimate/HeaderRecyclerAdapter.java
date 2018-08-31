@@ -49,8 +49,10 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
     private android.app.LoaderManager loaderManager;
     private ArrayList<String> headerList;
     private ArrayList<News> newsList = new ArrayList<News>();
+    private ArrayList<TextView> holderTextView = new ArrayList<TextView>();
     private TextView emptyTextView;
     private DialogAction dialogAction;
+    private int rowIndex;
     public HeaderRecyclerAdapter(ArrayList<String> headerList, Context context, LoaderManager loaderManager, RecyclerView bodyRV, TextView emptyTextView) {
         this.headerList = headerList;
         this.context = context;
@@ -62,6 +64,7 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        holderTextView.clear();
         checkConnection = new CheckConnection(context);
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_item,parent,false);
@@ -69,11 +72,12 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final viewHolder holder, int positionOfView) {
+    public void onBindViewHolder(@NonNull final viewHolder holder, final int positionOfView) {
         final int position = positionOfView;
         holder.headerItem.setText(headerList.get(positionOfView));
 //        dialogAction = new DialogAction(context);
-
+//        holderTextView.add(holder.headerItem);
+//        Log.i(LOG_HEADER_RV,""+positionOfView);
         if(firstTimeNews){
             //This execute for the first time when the app is launched
             //to show 'All' section of news
@@ -84,12 +88,17 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
             }
 
         }
+        holder.headerItem.setTextColor(context.getResources().getColor(R.color.colorPrimary));
 
         //When other section clicked
         //it initiate Loader accordingly
         holder.headerItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                holder.headerItem.setTextColor(context.getResources().getColor(R.color.colorAccent));
+//                setColorToClickedView(position);
+                rowIndex = positionOfView;
+                notifyDataSetChanged();
 
                 if(checkConnection.isConnected()){
                     if(headerList.get(position).equals(context.getString(R.string.All))){
@@ -114,7 +123,23 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
                 }
             }
         });
+        if(rowIndex == position){
+            holder.headerItem.setTextColor(context.getResources().getColor(R.color.colorAccent));
+        }else {
+            holder.headerItem.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        }
 
+    }
+
+    private void setColorToClickedView(int position) {
+        for(int i =0; i<holderTextView.size();i++){
+
+//            if(position == i){
+                holderTextView.get(i).setTextColor(context.getResources().getColor(R.color.colorAccent));
+//            }else
+
+        }
+        holderTextView.get(position).setTextColor(context.getResources().getColor(R.color.colorPrimary));
     }
 
     @Override

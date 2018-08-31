@@ -39,4 +39,5 @@
     <string name="settings_min_news_default" translatable="false">15</string>
     <string name="settings_news_label">Minimum News Article</string>
     <string name="no_news">Soryy, Try After some time !!!</string>
+    <string name="setting">Settings</string>
 </resources>
