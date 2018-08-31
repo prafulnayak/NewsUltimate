@@ -95,8 +95,8 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
         holder.headerItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                holder.headerItem.setTextColor(context.getResources().getColor(R.color.colorAccent));
-//                setColorToClickedView(position);
+                //rowIndex is used to set color of the view when clicked.
+                //the notify the adapter that it has changed.
                 rowIndex = positionOfView;
                 notifyDataSetChanged();
 
@@ -123,6 +123,7 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
                 }
             }
         });
+        // This changes the color of the header item to let the user know which tab is clicked/ active.
         if(rowIndex == position){
             holder.headerItem.setTextColor(context.getResources().getColor(R.color.colorAccent));
         }else {
