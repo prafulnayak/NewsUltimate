@@ -11,8 +11,6 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        SharedPreferenceConfig sharedPreferenceConfig = new SharedPreferenceConfig(this);
-        sharedPreferenceConfig.writeFirstTimeNews(false);
     }
 
     @Override

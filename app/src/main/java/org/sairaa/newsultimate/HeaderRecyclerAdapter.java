@@ -49,7 +49,6 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
     private android.app.LoaderManager loaderManager;
     private ArrayList<String> headerList;
     private ArrayList<News> newsList = new ArrayList<News>();
-    private ArrayList<TextView> holderTextView = new ArrayList<TextView>();
     private TextView emptyTextView;
     private DialogAction dialogAction;
     private int rowIndex;
@@ -64,7 +63,7 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        holderTextView.clear();
+//        Log.i(LOG_HEADER_RV,"on Create View Holder");
         checkConnection = new CheckConnection(context);
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_item,parent,false);
@@ -132,17 +131,6 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
 
     }
 
-    private void setColorToClickedView(int position) {
-        for(int i =0; i<holderTextView.size();i++){
-
-//            if(position == i){
-                holderTextView.get(i).setTextColor(context.getResources().getColor(R.color.colorAccent));
-//            }else
-
-        }
-        holderTextView.get(position).setTextColor(context.getResources().getColor(R.color.colorPrimary));
-    }
-
     @Override
     public int getItemCount() {
         return headerList.size();
@@ -150,6 +138,7 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
 
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle bundle) {
+        Log.i(LOG_HEADER_RV,"on Create Loader");
         //Shared preference to store/retrieve setting attribute to display no of news
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         //Retrieving no of news from preference
@@ -197,13 +186,12 @@ class HeaderRecyclerAdapter extends RecyclerView.Adapter<HeaderRecyclerAdapter.v
             default:
                 return new NewsLoader(context,uriBuilder.toString());
         }
-//        return new NewsLoader(context,uriBuilder.toString());
     }
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
         emptyTextView.setText(R.string.no_news);
-//        Log.i(LOG_HEADER_RV,"On LoadFinished");
+        Log.i(LOG_HEADER_RV,"On LoadFinished");
         newsList.clear();
 //        news = null;
         //Check of the news data set is empty or null

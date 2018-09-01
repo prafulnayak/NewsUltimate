@@ -30,20 +30,5 @@ public class CheckConnection {
         NetworkInfo networkInfo = getNetworkInfo();
         return networkInfo != null &&  networkInfo.isConnectedOrConnecting();
     }
-    /*
-        Check whether Connected to Wifi or not
-     */
 
-    public Boolean isWifiConnected(){
-        NetworkInfo networkInfo = getNetworkInfo();
-        return networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
-    }
-    /*
-        Check whether Connected to Mobile Data or not
-     */
-
-    public Boolean isMobileConnected(){
-        NetworkInfo networkInfo = getNetworkInfo();
-        return networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
-    }
 }

@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements TextSetterOnRV.De
 //    private ArrayList<String> headerList;
     //empty text view
     private TextView emptyTextView;
-    private ArrayList<String> headerList = new ArrayList<String>();
     @Nullable
     private SimpleIdlingResource mIdlingResource;
 
