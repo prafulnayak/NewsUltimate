@@ -25,14 +25,12 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     @Override
     protected void onStartLoading() {
-//        Log.i(LOG_NEWS_LOADER,"onStartLoading");
         super.onStartLoading();
 
     }
 
     @Override
     public List<News> loadInBackground() {
-
         List<News> newsList = new ArrayList<News>();
         newsListT = newsList;
         newsList = new QueryUtil().QueryUtilsForNewtwork(url,context);

@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements TextSetterOnRV.De
     private RecyclerView.Adapter headerAdapter;
     //Layout manager for header adapter
     private RecyclerView.LayoutManager headerLayoutManager;
-    // header List
-//    private ArrayList<String> headerList;
     //empty text view
     private TextView emptyTextView;
     @Nullable
@@ -55,10 +53,8 @@ public class MainActivity extends AppCompatActivity implements TextSetterOnRV.De
         headerRV = findViewById(R.id.header_recycler_view);
         bodyRV = findViewById(R.id.body_recycler_view);
         emptyTextView = findViewById(R.id.empty_text_view);
-
         // Get the IdlingResource instance
         getIdlingResource();
-
     }
 
     @Override
@@ -74,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements TextSetterOnRV.De
         headerRV.setLayoutManager(headerLayoutManager);
         headerRV.setHasFixedSize(true);
         headerRV.setAdapter(headerAdapter);
-
-
     }
 
     @Override

@@ -27,12 +27,10 @@ class BodyRecyclerAdapter extends RecyclerView.Adapter<BodyRecyclerAdapter.viewH
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-//        holder.sectionT.setText(bodyList.get(position));
         final News news = bodyList.get(position);
         holder.sectionT.setText(news.getSectionName()+"  >>");
         holder.headingT.setText(news.getWebTitle());
         holder.dateT.setText(convertStringToDate(news.getWebPublicationDate()));
-//        holder.dateT.setText("hello");
         holder.sourceT.setText(news.getTagContributor());
         if(news.getFieldThumbnail() != null)
             holder.imageViewN.setImageBitmap(news.getFieldThumbnail());

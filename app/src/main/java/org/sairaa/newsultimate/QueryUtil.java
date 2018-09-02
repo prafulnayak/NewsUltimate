@@ -155,8 +155,6 @@ class QueryUtil {
             }
         }
         return jsonResponse;
-
-
     }
 
     private String readFromStream(InputStream inputStream) throws IOException {
